@@ -39,8 +39,8 @@ const App = () => (
             <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="*" element={<NotFound />} />
-            <Analytics />
           </Routes>
+          <Analytics />
         </BrowserRouter>
       </TooltipProvider>
     </CartProvider>

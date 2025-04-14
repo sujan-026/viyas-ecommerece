@@ -31,7 +31,7 @@ export function Navbar() {
           </SheetTrigger>
           <SheetContent side="left">
             <SheetHeader>
-              <SheetTitle>ShopEase</SheetTitle>
+              <SheetTitle>Viyas</SheetTitle>
               <SheetDescription>
                 Your one-stop shop for premium products
               </SheetDescription>
@@ -67,7 +67,7 @@ export function Navbar() {
 
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold text-shop-primary">ShopEase</span>
+          <span className="text-xl font-bold text-shop-primary">Viyas</span>
         </Link>
 
         {/* Desktop Nav */}

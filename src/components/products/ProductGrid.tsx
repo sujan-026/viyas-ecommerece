@@ -2,7 +2,7 @@
 import React from "react";
 import { ProductCard } from "./ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Product } from "@/hooks/useProducts";
+import { Product } from "@/types/product"; // Import from types for consistency
 
 interface ProductGridProps {
   products: Product[];

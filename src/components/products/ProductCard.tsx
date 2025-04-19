@@ -23,12 +23,17 @@ export function ProductCard({ product }: ProductCardProps) {
     toast.success(`${product.name} added to cart`);
   };
 
+  // Get the first image or use a placeholder
+  const imageUrl = product.images && product.images.length > 0 
+    ? product.images[0] 
+    : "/placeholder.svg";
+
   return (
     <Card className="overflow-hidden group hover:shadow-md transition-all duration-200">
       <Link to={`/products/${product.id}`}>
         <div className="relative aspect-square overflow-hidden">
           <img
-            src={product.images[0]}
+            src={imageUrl}
             alt={product.name}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />

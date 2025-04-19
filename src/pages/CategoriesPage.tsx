@@ -5,13 +5,14 @@ import { Link, useParams } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { categories, getProductsByCategory, products } from "@/data/products";
 import { ProductGrid } from "@/components/products/ProductGrid";
+import { Product } from "@/types/product"; // Use consistent type import
 
 const CategoriesPage = () => {
   const { category } = useParams();
   
   // If a specific category is selected, show products from that category
   if (category) {
-    const categoryProducts = getProductsByCategory(category);
+    const categoryProducts = getProductsByCategory(category) as Product[]; // Add type assertion here
     return (
       <MainLayout>
         <div className="container py-8">

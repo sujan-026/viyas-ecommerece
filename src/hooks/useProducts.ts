@@ -36,24 +36,27 @@ export const useProducts = (options?: { featured?: boolean }) => {
       }
 
       // Transform the database product format to our application product format
-      return data.map((item: SupabaseProduct): Product => ({
-        id: item.id,
-        name: item.name,
-        description: item.description || "",
-        price: item.price,
-        images: [item.image_url], // Convert single image_url to images array
-        category: item.resolution.includes("8K") ? "Premium TVs" : 
-                 item.screen_size <= 32 ? "Small TVs" :
-                 item.screen_size <= 50 ? "Medium TVs" :
-                 "Large TVs",
-        rating: 4.5, // Default rating since we don't have this in database yet
-        stock: item.stock,
-        featured: item.featured,
-        screenSize: item.screen_size,
-        resolution: item.resolution,
-        smartFeatures: ["Netflix", "YouTube", "Smart TV"], // Default features
-        connectivity: ["HDMI", "USB", "Wi-Fi"] // Default connectivity
-      }));
+      return data.map((item: SupabaseProduct) => {
+        const product: Product = {
+          id: item.id,
+          name: item.name,
+          description: item.description || "",
+          price: item.price,
+          images: [item.image_url], // Convert single image_url to images array
+          category: item.resolution.includes("8K") ? "Premium TVs" : 
+                   item.screen_size <= 32 ? "Small TVs" :
+                   item.screen_size <= 50 ? "Medium TVs" :
+                   "Large TVs",
+          rating: 4.5, // Default rating since we don't have this in database yet
+          stock: item.stock,
+          featured: item.featured,
+          screenSize: item.screen_size,
+          resolution: item.resolution,
+          smartFeatures: ["Netflix", "YouTube", "Smart TV"], // Default features
+          connectivity: ["HDMI", "USB", "Wi-Fi"] // Default connectivity
+        };
+        return product;
+      });
     },
   });
 };

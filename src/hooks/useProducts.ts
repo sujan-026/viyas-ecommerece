@@ -3,17 +3,17 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Product } from "@/types/product";
 
-// Alias for the database product structure
+// Define the database product structure separately from our application's Product type
 export interface SupabaseProduct {
   id: string;
   name: string;
-  description: string;
+  description: string | null;
   price: number;
   screen_size: number;
   resolution: string;
   brand: string;
   stock: number;
-  image_url: string;
+  image_url: string | null;
   featured?: boolean;
 }
 
@@ -36,20 +36,22 @@ export const useProducts = (options?: { featured?: boolean }) => {
       }
 
       // Transform the database product format to our application product format
-      return data.map((item: SupabaseProduct) => {
+      // Use explicit type annotation for the resulting array to avoid deep recursion
+      const products: Product[] = data.map((item: SupabaseProduct) => {
+        // Create a new Product object with the transformed data
         const product: Product = {
           id: item.id,
           name: item.name,
           description: item.description || "",
           price: item.price,
-          images: [item.image_url], // Convert single image_url to images array
+          images: [item.image_url || "/placeholder.svg"], // Convert single image_url to images array with fallback
           category: item.resolution.includes("8K") ? "Premium TVs" : 
                    item.screen_size <= 32 ? "Small TVs" :
                    item.screen_size <= 50 ? "Medium TVs" :
                    "Large TVs",
           rating: 4.5, // Default rating since we don't have this in database yet
           stock: item.stock,
-          featured: item.featured,
+          featured: !!item.featured, // Convert to boolean
           screenSize: item.screen_size,
           resolution: item.resolution,
           smartFeatures: ["Netflix", "YouTube", "Smart TV"], // Default features
@@ -57,6 +59,8 @@ export const useProducts = (options?: { featured?: boolean }) => {
         };
         return product;
       });
+
+      return products;
     },
   });
 };

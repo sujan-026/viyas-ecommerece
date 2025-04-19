@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,7 +16,12 @@ import OrdersPage from "./pages/OrdersPage";
 import OrderDetail from "./pages/OrderDetail";
 import ProfilePage from "./pages/ProfilePage";
 import CategoriesPage from "./pages/CategoriesPage";
-import { Analytics } from "@vercel/analytics/react"
+import NewArrivalsPage from "./pages/NewArrivalsPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import ShippingPage from "./pages/ShippingPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import { Analytics } from "@vercel/analytics/react";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +44,11 @@ const App = () => (
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/orders/:id" element={<OrderDetail />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/shipping" element={<ShippingPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Analytics />

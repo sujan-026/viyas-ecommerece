@@ -1,7 +1,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Product as ProductType } from "@/types/product";
+import { Product } from "@/types/product";
 
 // Alias for the database product structure
 export interface SupabaseProduct {
@@ -16,9 +16,6 @@ export interface SupabaseProduct {
   image_url: string;
   featured?: boolean;
 }
-
-// Re-export the Product type for components that import from this hook
-export type Product = ProductType;
 
 export const useProducts = (options?: { featured?: boolean }) => {
   return useQuery({

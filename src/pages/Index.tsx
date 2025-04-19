@@ -3,12 +3,13 @@ import React from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { Button } from "@/components/ui/button";
-import { getFeaturedProducts, products, categories } from "@/data/products";
 import { Link } from "react-router-dom";
 import { ChevronRight, Tv, Zap, Award, Wifi } from "lucide-react";
+import { useProducts } from "@/hooks/useProducts";
 
 const Index = () => {
-  const featuredProducts = getFeaturedProducts();
+  const { data: products = [], isLoading } = useProducts();
+  const { data: featuredProducts = [] } = useProducts({ featured: true });
 
   return (
     <MainLayout>
@@ -38,7 +39,7 @@ const Index = () => {
               View All <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
-          <ProductGrid products={featuredProducts} />
+          <ProductGrid products={featuredProducts} isLoading={isLoading} />
         </div>
       </section>
 
@@ -134,7 +135,7 @@ const Index = () => {
               View All <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
-          <ProductGrid products={products.slice(0, 4)} />
+          <ProductGrid products={products.slice(0, 4)} isLoading={isLoading} />
         </div>
       </section>
     </MainLayout>

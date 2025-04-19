@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { Product } from "@/types/product"; // Use consistent type import
+import { Product } from "@/types/product";
 import { Check, ChevronDown, Search, X } from "lucide-react";
 
 const ProductsPage = () => {
@@ -214,7 +214,7 @@ const ProductsPage = () => {
                       Showing {filteredProducts.length} products
                     </p>
                   </div>
-                  <ProductGrid products={filteredProducts as Product[]} />
+                  <ProductGrid products={filteredProducts} />
                 </>
               )}
             </div>

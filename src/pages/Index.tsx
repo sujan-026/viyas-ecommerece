@@ -3,22 +3,12 @@ import React from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { Button } from "@/components/ui/button";
+import { getFeaturedProducts, products, categories } from "@/data/products";
 import { Link } from "react-router-dom";
 import { ChevronRight, Tv, Zap, Award, Wifi } from "lucide-react";
-import { useProducts } from "@/hooks/useProducts";
-
-// Define the categories array
-const categories = [
-  "24\" - 32\"",
-  "43\" - 50\"",
-  "55\" - 65\"",
-  "70\" - 85\"",
-  "8K TVs"
-];
 
 const Index = () => {
-  const { data: products = [], isLoading } = useProducts();
-  const { data: featuredProducts = [] } = useProducts({ featured: true });
+  const featuredProducts = getFeaturedProducts();
 
   return (
     <MainLayout>
@@ -48,7 +38,7 @@ const Index = () => {
               View All <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
-          <ProductGrid products={featuredProducts} isLoading={isLoading} />
+          <ProductGrid products={featuredProducts} />
         </div>
       </section>
 
@@ -144,7 +134,7 @@ const Index = () => {
               View All <ChevronRight className="h-4 w-4 ml-1" />
             </Link>
           </div>
-          <ProductGrid products={products.slice(0, 4)} isLoading={isLoading} />
+          <ProductGrid products={products.slice(0, 4)} />
         </div>
       </section>
     </MainLayout>

@@ -7,6 +7,15 @@ import { Link } from "react-router-dom";
 import { ChevronRight, Tv, Zap, Award, Wifi } from "lucide-react";
 import { useProducts } from "@/hooks/useProducts";
 
+// Define the categories array
+const categories = [
+  "24\" - 32\"",
+  "43\" - 50\"",
+  "55\" - 65\"",
+  "70\" - 85\"",
+  "8K TVs"
+];
+
 const Index = () => {
   const { data: products = [], isLoading } = useProducts();
   const { data: featuredProducts = [] } = useProducts({ featured: true });

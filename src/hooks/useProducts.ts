@@ -12,6 +12,7 @@ export interface Product {
   brand: string;
   stock: number;
   image_url: string;
+  featured?: boolean;
 }
 
 export const useProducts = (options?: { featured?: boolean }) => {

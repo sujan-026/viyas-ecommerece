@@ -2,9 +2,10 @@
 import React from "react";
 import { ProductCard } from "./ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Product } from "@/hooks/useProducts";
 
 interface ProductGridProps {
-  products: any[];
+  products: Product[];
   isLoading?: boolean;
 }
 

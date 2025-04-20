@@ -4,6 +4,7 @@ export interface User {
   name: string;
   email: string;
   avatar?: string;
+  phone?: string;
   addresses: {
     id: string;
     title: string;

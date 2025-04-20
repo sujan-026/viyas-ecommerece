@@ -14,6 +14,7 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { Product } from "@/types/product";
 import { Check, ChevronDown, Search, X } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 const ProductsPage = () => {
   // derive real price bounds
@@ -35,14 +36,16 @@ const ProductsPage = () => {
   const [sortBy, setSortBy] = useState<"featured"|"priceAsc"|"priceDesc"|"nameAsc"|"nameDesc"|"rating">("featured");
   const [showFilters, setShowFilters] = useState(false);
 
-  const [searchParams] = new URLSearchParams(window.location.search);
-  const urlSearchTerm = searchParams.get("search");
-
+  // Use useLocation to get search params
+  const location = useLocation();
+  
   useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const urlSearchTerm = searchParams.get("search");
     if (urlSearchTerm) {
       setSearchTerm(urlSearchTerm);
     }
-  }, [urlSearchTerm]);
+  }, [location.search]);
 
   useEffect(() => {
     applyFilters(searchTerm, selectedCategory, priceRange, sortBy);

@@ -5,6 +5,7 @@ export const currentUser: User = {
   id: "user-1",
   name: "John Doe",
   email: "john.doe@example.com",
+  phone: "+1 (555) 123-4567",
   avatar: "https://i.pravatar.cc/150?u=user-1",
   addresses: [
     {

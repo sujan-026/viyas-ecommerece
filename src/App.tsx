@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { WishlistProvider } from "@/context/WishlistContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { CheckoutProvider } from "@/context/CheckoutContext";
 import { RequireAuth } from "@/components/auth/RequireAuth";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
@@ -36,41 +37,43 @@ const App = () => (
     <AuthProvider>
       <CartProvider>
         <WishlistProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Routes>
-                {/* Public routes */}
-                <Route path="/" element={<Index />} />
-                <Route path="/products" element={<ProductsPage />} />
-                <Route path="/products/:id" element={<ProductDetail />} />
-                <Route path="/categories" element={<CategoriesPage />} />
-                <Route path="/categories/:category" element={<CategoriesPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/new-arrivals" element={<NewArrivalsPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/shipping" element={<ShippingPage />} />
-                <Route path="/privacy" element={<PrivacyPage />} />
-                <Route path="/featured" element={<FeaturedPage />} />
-                <Route path="/auth" element={<AuthPage />} />
-                
-                {/* Protected routes */}
-                <Route element={<RequireAuth />}>
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                  <Route path="/order-success" element={<OrderSuccessPage />} />
-                  <Route path="/orders" element={<OrdersPage />} />
-                  <Route path="/orders/:id" element={<OrderDetail />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/wishlist" element={<WishlistPage />} />
-                </Route>
+          <CheckoutProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <Routes>
+                  {/* Public routes */}
+                  <Route path="/" element={<Index />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/products/:id" element={<ProductDetail />} />
+                  <Route path="/categories" element={<CategoriesPage />} />
+                  <Route path="/categories/:category" element={<CategoriesPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/new-arrivals" element={<NewArrivalsPage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/shipping" element={<ShippingPage />} />
+                  <Route path="/privacy" element={<PrivacyPage />} />
+                  <Route path="/featured" element={<FeaturedPage />} />
+                  <Route path="/auth" element={<AuthPage />} />
+                  
+                  {/* Protected routes */}
+                  <Route element={<RequireAuth />}>
+                    <Route path="/checkout" element={<CheckoutPage />} />
+                    <Route path="/order-success" element={<OrderSuccessPage />} />
+                    <Route path="/orders" element={<OrdersPage />} />
+                    <Route path="/orders/:id" element={<OrderDetail />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/wishlist" element={<WishlistPage />} />
+                  </Route>
 
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-              <Analytics />
-            </BrowserRouter>
-          </TooltipProvider>
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+                <Analytics />
+              </BrowserRouter>
+            </TooltipProvider>
+          </CheckoutProvider>
         </WishlistProvider>
       </CartProvider>
     </AuthProvider>

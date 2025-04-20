@@ -1,3 +1,4 @@
+
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -16,6 +17,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
+import { useCheckout } from "@/context/CheckoutContext";
+import { useCart } from "@/context/CartContext";
 
 const formSchema = z.object({
   fullName: z.string().min(2, {
@@ -44,6 +47,9 @@ const formSchema = z.object({
 
 export function CheckoutForm() {
   const navigate = useNavigate();
+  const { updateCheckoutData } = useCheckout();
+  const { getCartTotal } = useCart();
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,7 +58,32 @@ export function CheckoutForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    // Generate a random order ID
+    const orderId = `ORD-${Math.floor(Math.random() * 900000) + 100000}`;
+    
+    // Get current date for order date
+    const orderDate = new Date().toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+    
+    // Update checkout context with form data
+    updateCheckoutData({
+      shippingAddress: {
+        fullName: values.fullName,
+        email: values.email,
+        address: values.address,
+        city: values.city,
+        state: values.state,
+        postalCode: values.postalCode,
+        country: values.country,
+      },
+      paymentMethod: values.paymentMethod === "creditCard" ? "Credit Card (•••• 4242)" : "PayPal",
+      orderDate,
+      orderId,
+    });
+    
     navigate("/order-success");
   }
 
@@ -75,7 +106,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} value={field.value || ''} />
+                      <Input placeholder="Enter your full name" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -88,7 +119,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="johndoe@example.com" type="email" {...field} value={field.value || ''} />
+                      <Input placeholder="Enter your email address" type="email" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -103,7 +134,7 @@ export function CheckoutForm() {
                 <FormItem>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="123, Street Name, Area/Locality" {...field} value={field.value || ''} />
+                    <Input placeholder="Enter your street address with house/flat number" {...field} value={field.value || ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +149,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <Input placeholder="Mumbai" {...field} value={field.value || ''} />
+                      <Input placeholder="Enter your city" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -131,7 +162,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>State</FormLabel>
                     <FormControl>
-                      <Input placeholder="Maharashtra" {...field} value={field.value || ''} />
+                      <Input placeholder="Enter your state" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -144,7 +175,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>PIN Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="400001" {...field} value={field.value || ''} />
+                      <Input placeholder="Enter your PIN code" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -159,7 +190,7 @@ export function CheckoutForm() {
                 <FormItem>
                   <FormLabel>Country</FormLabel>
                   <FormControl>
-                    <Input placeholder="India" {...field} value={field.value || ''} />
+                    <Input placeholder="Enter your country" {...field} value={field.value || ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

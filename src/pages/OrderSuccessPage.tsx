@@ -1,22 +1,25 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CheckCircle, Clock, ShoppingBag } from "lucide-react";
+import { useCheckout } from "@/context/CheckoutContext";
+import { useCart } from "@/context/CartContext";
 
 const OrderSuccessPage = () => {
-  // Generate a random order ID
-  const orderId = `ORD-${Math.floor(Math.random() * 900000) + 100000}`;
+  const navigate = useNavigate();
+  const { checkoutData } = useCheckout();
+  const { getCartTotal } = useCart();
   
-  // Get current date for order date
-  const orderDate = new Date().toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-  
+  // If no checkout data, redirect to cart
+  useEffect(() => {
+    if (!checkoutData.shippingAddress) {
+      navigate("/cart");
+    }
+  }, [checkoutData, navigate]);
+
   // Estimated delivery date (7 days from now)
   const deliveryDate = new Date();
   deliveryDate.setDate(deliveryDate.getDate() + 7);
@@ -25,6 +28,19 @@ const OrderSuccessPage = () => {
     month: "long",
     day: "numeric",
   });
+
+  // Format currency in Indian Rupees
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      maximumFractionDigits: 2
+    }).format(amount);
+  };
+
+  if (!checkoutData.shippingAddress) {
+    return null; // Don't render anything if redirecting
+  }
 
   return (
     <MainLayout>
@@ -50,25 +66,25 @@ const OrderSuccessPage = () => {
                   <h3 className="font-semibold text-sm text-muted-foreground mb-2">
                     ORDER NUMBER
                   </h3>
-                  <p className="font-medium">{orderId}</p>
+                  <p className="font-medium">{checkoutData.orderId}</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm text-muted-foreground mb-2">
                     DATE PLACED
                   </h3>
-                  <p className="font-medium">{orderDate}</p>
+                  <p className="font-medium">{checkoutData.orderDate}</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm text-muted-foreground mb-2">
                     TOTAL AMOUNT
                   </h3>
-                  <p className="font-medium">$349.96</p>
+                  <p className="font-medium">{formatCurrency(getCartTotal())}</p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-sm text-muted-foreground mb-2">
                     PAYMENT METHOD
                   </h3>
-                  <p className="font-medium">Credit Card (•••• 4242)</p>
+                  <p className="font-medium">{checkoutData.paymentMethod}</p>
                 </div>
               </div>
 
@@ -87,10 +103,10 @@ const OrderSuccessPage = () => {
                 <div>
                   <h3 className="font-semibold mb-1">Shipping Address</h3>
                   <p className="text-muted-foreground">
-                    John Doe<br />
-                    123 Main St<br />
-                    San Francisco, CA 94105<br />
-                    United States
+                    {checkoutData.shippingAddress?.fullName}<br />
+                    {checkoutData.shippingAddress?.address}<br />
+                    {checkoutData.shippingAddress?.city}, {checkoutData.shippingAddress?.state} {checkoutData.shippingAddress?.postalCode}<br />
+                    {checkoutData.shippingAddress?.country}
                   </p>
                 </div>
               </div>

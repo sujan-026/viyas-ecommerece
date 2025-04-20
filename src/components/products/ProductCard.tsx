@@ -13,6 +13,13 @@ interface ProductCardProps {
   product: Product;
 }
 
+// formatter for Indian Rupees with lakhs/crores separators
+const formatINR = (amount: number) =>
+  amount.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
 
@@ -69,7 +76,7 @@ export function ProductCard({ product }: ProductCardProps) {
             </div>
           </div>
           <div className="mt-2">
-            <span className="font-bold text-lg">${product.price.toFixed(2)}</span>
+            <span className="font-bold text-lg">&#x20B9;{formatINR(product.price)}</span>
           </div>
         </CardContent>
         <CardFooter className="p-4 pt-0 flex gap-2">

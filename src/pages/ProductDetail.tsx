@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
@@ -22,12 +21,21 @@ const ProductDetail = () => {
 
   const product = getProductById(id || "");
 
+  // formatter for Indian Rupees with lakhs/crores separators
+  const formatINR = (amount: number) =>
+    amount.toLocaleString("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+
   if (!product) {
     return (
       <MainLayout>
         <div className="container py-12 text-center">
           <h1 className="text-2xl font-bold mb-4">Product Not Found</h1>
-          <p className="mb-6">The product you're looking for doesn't exist or has been removed.</p>
+          <p className="mb-6">
+            The product you're looking for doesn't exist or has been removed.
+          </p>
           <Button onClick={() => navigate("/products")}>Back to Products</Button>
         </div>
       </MainLayout>
@@ -38,7 +46,9 @@ const ProductDetail = () => {
     for (let i = 0; i < quantity; i++) {
       addToCart(product);
     }
-    toast.success(`${quantity} ${quantity === 1 ? 'item' : 'items'} added to cart`);
+    toast.success(
+      `${quantity} ${quantity === 1 ? "item" : "items"} added to cart`
+    );
   };
 
   const increaseQuantity = () => {
@@ -130,9 +140,10 @@ const ProductDetail = () => {
                 </span>
               </div>
 
+              {/* Price with Indian separators */}
               <div className="mt-4">
                 <span className="text-3xl font-bold">
-                  ${product.price.toFixed(2)}
+                  &#x20B9;{formatINR(product.price)}
                 </span>
                 {product.stock > 0 ? (
                   <span className="ml-2 text-sm text-green-600">
@@ -264,17 +275,23 @@ const ProductDetail = () => {
                 <CardContent className="pt-6">
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Shipping Information</h3>
+                      <h3 className="text-lg font-semibold mb-2">
+                        Shipping Information
+                      </h3>
                       <p className="text-muted-foreground">
-                        We ship to all 50 states and internationally. Standard shipping takes 3-5 business days. 
-                        Expedited shipping options are available at checkout.
+                        We ship to all 50 states and internationally. Standard
+                        shipping takes 3-5 business days. Expedited shipping
+                        options are available at checkout.
                       </p>
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold mb-2">Return Policy</h3>
+                      <h3 className="text-lg font-semibold mb-2">
+                        Return Policy
+                      </h3>
                       <p className="text-muted-foreground">
-                        We offer a 30-day return policy for most items. Products must be returned in original packaging
-                        and in resellable condition. Some restrictions apply.
+                        We offer a 30-day return policy for most items. Products
+                        must be returned in original packaging and in resellable
+                        condition. Some restrictions apply.
                       </p>
                     </div>
                   </div>
@@ -288,8 +305,8 @@ const ProductDetail = () => {
           <div className="mt-16">
             <h2 className="text-2xl font-bold mb-6">Related Products</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {relatedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              {relatedProducts.map((rp) => (
+                <ProductCard key={rp.id} product={rp} />
               ))}
             </div>
           </div>

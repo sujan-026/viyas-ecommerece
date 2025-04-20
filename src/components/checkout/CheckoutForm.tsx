@@ -15,7 +15,6 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { currentUser } from "@/data/user";
 import { useNavigate } from "react-router-dom";
 
 const formSchema = z.object({
@@ -48,21 +47,12 @@ export function CheckoutForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: currentUser.addresses[0].fullName,
-      email: currentUser.email,
-      address: currentUser.addresses[0].address,
-      city: currentUser.addresses[0].city,
-      state: currentUser.addresses[0].state,
-      postalCode: currentUser.addresses[0].postalCode,
-      country: currentUser.addresses[0].country,
       paymentMethod: "creditCard",
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    // In a real app, this would process payment and create an order
-    // For now, just navigate to a success page
     navigate("/order-success");
   }
 
@@ -85,7 +75,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your full name" {...field} />
+                      <Input placeholder="John Doe" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -98,7 +88,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your email address" type="email" {...field} />
+                      <Input placeholder="johndoe@example.com" type="email" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -113,14 +103,14 @@ export function CheckoutForm() {
                 <FormItem>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your complete street address" {...field} />
+                    <Input placeholder="123, Street Name, Area/Locality" {...field} value={field.value || ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
               <FormField
                 control={form.control}
                 name="city"
@@ -128,7 +118,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your city" {...field} />
+                      <Input placeholder="Mumbai" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -141,7 +131,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>State</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your state" {...field} />
+                      <Input placeholder="Maharashtra" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -154,7 +144,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>PIN Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter your 6-digit PIN code" {...field} />
+                      <Input placeholder="400001" {...field} value={field.value || ''} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -169,7 +159,7 @@ export function CheckoutForm() {
                 <FormItem>
                   <FormLabel>Country</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your country" {...field} />
+                    <Input placeholder="India" {...field} value={field.value || ''} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

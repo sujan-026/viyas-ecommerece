@@ -12,7 +12,11 @@ export function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 w-full max-w-[100vw] overflow-x-hidden">
+        <div className="mx-auto w-full">
+          {children}
+        </div>
+      </main>
       <Footer />
       <Toaster position="top-right" />
     </div>

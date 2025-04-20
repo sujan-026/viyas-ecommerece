@@ -11,7 +11,6 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect to cart if there are no items
     if (cartItems.length === 0) {
       navigate("/cart");
     }
@@ -19,14 +18,14 @@ const CheckoutPage = () => {
 
   return (
     <MainLayout>
-      <div className="container py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <h1 className="text-2xl md:text-3xl font-bold mb-6">Checkout</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             <CheckoutForm />
           </div>
-          <div>
+          <div className="order-first lg:order-last mb-6 lg:mb-0">
             <CartSummary />
           </div>
         </div>

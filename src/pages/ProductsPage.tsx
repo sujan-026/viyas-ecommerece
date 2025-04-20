@@ -35,7 +35,15 @@ const ProductsPage = () => {
   const [sortBy, setSortBy] = useState<"featured"|"priceAsc"|"priceDesc"|"nameAsc"|"nameDesc"|"rating">("featured");
   const [showFilters, setShowFilters] = useState(false);
 
-  // whenever filters change, re-apply
+  const [searchParams] = new URLSearchParams(window.location.search);
+  const urlSearchTerm = searchParams.get("search");
+
+  useEffect(() => {
+    if (urlSearchTerm) {
+      setSearchTerm(urlSearchTerm);
+    }
+  }, [urlSearchTerm]);
+
   useEffect(() => {
     applyFilters(searchTerm, selectedCategory, priceRange, sortBy);
   }, [searchTerm, selectedCategory, priceRange, sortBy]);

@@ -1,5 +1,4 @@
-
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, User, Search, Menu, Heart, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,6 +23,20 @@ import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { useAuth } from "@/context/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useSearch } from "@/hooks/useSearch";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 export function Navbar() {
   const { getCartCount } = useCart();
@@ -33,6 +46,9 @@ export function Navbar() {
   
   const cartCount = getCartCount();
   const wishlistCount = wishlistItems.length;
+
+  const { searchTerm, setSearchTerm, searchResults, handleSearch } = useSearch();
+  const [open, setOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -51,7 +67,6 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
-        {/* Mobile Menu */}
         <Sheet>
           <SheetTrigger asChild className="md:hidden">
             <Button variant="ghost" size="icon">
@@ -118,12 +133,10 @@ export function Navbar() {
           </SheetContent>
         </Sheet>
 
-        {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="text-xl font-bold text-shop-primary">Viyas</span>
         </Link>
 
-        {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6">
           <Link
             to="/"
@@ -153,15 +166,57 @@ export function Navbar() {
           )}
         </nav>
 
-        {/* Search, Cart, Profile Icons */}
         <div className="flex items-center gap-2">
           <div className="hidden md:flex relative">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="pl-8 w-[200px] lg:w-[300px]"
-            />
+            <Popover open={open} onOpenChange={setOpen}>
+              <PopoverTrigger asChild>
+                <Button variant="outline" className="w-[300px] justify-start gap-2">
+                  <Search className="h-4 w-4" />
+                  <span className="text-muted-foreground">Search products...</span>
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-[300px] p-0" align="start">
+                <Command>
+                  <form onSubmit={handleSearch}>
+                    <CommandInput
+                      placeholder="Search products..."
+                      value={searchTerm}
+                      onValueChange={setSearchTerm}
+                    />
+                  </form>
+                  <CommandList>
+                    <CommandEmpty>No results found.</CommandEmpty>
+                    {searchResults.length > 0 && (
+                      <CommandGroup heading="Products">
+                        {searchResults.slice(0, 5).map((product) => (
+                          <CommandItem
+                            key={product.id}
+                            onSelect={() => {
+                              setOpen(false);
+                              navigate(`/products/${product.id}`);
+                            }}
+                          >
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={product.images[0]}
+                                alt={product.name}
+                                className="h-8 w-8 object-cover rounded"
+                              />
+                              <div>
+                                <p className="text-sm font-medium">{product.name}</p>
+                                <p className="text-xs text-muted-foreground">
+                                  &#x20B9;{product.price}
+                                </p>
+                              </div>
+                            </div>
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
+                  </CommandList>
+                </Command>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {isAuthenticated && (
@@ -200,11 +255,14 @@ export function Navbar() {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="w-56">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/profile" className="cursor-pointer">Profile</Link>
+                  <Link to="/profile" className="cursor-pointer flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
                   <Link to="/orders" className="cursor-pointer">Orders</Link>

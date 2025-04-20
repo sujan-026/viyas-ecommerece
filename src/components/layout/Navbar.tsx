@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, User, Search, Menu, Heart, LogOut } from "lucide-react";
+import { ShoppingCart, User, Search, Menu, Heart, LogOut, ShoppingBag} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -265,10 +265,16 @@ export function Navbar() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/orders" className="cursor-pointer">Orders</Link>
+                  <Link to="/orders" className="cursor-pointer flex items-center">
+                    <ShoppingBag className="mr-2 h-4 w-4" />
+                    Orders
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/wishlist" className="cursor-pointer">Wishlist</Link>
+                  <Link to="/wishlist" className="cursor-pointer flex items-center">
+                    <Heart className="mr-2 h-4 w-4" />
+                    Wishlist
+                  </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">

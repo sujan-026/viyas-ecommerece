@@ -1,4 +1,3 @@
-
 import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -86,7 +85,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>Full Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} />
+                      <Input placeholder="Enter your full name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -99,7 +98,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>Email</FormLabel>
                     <FormControl>
-                      <Input placeholder="john@example.com" {...field} />
+                      <Input placeholder="Enter your email address" type="email" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -114,7 +113,7 @@ export function CheckoutForm() {
                 <FormItem>
                   <FormLabel>Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="123 Main St" {...field} />
+                    <Input placeholder="Enter your complete street address" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,7 +128,7 @@ export function CheckoutForm() {
                   <FormItem>
                     <FormLabel>City</FormLabel>
                     <FormControl>
-                      <Input placeholder="San Francisco" {...field} />
+                      <Input placeholder="Enter your city" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -140,9 +139,9 @@ export function CheckoutForm() {
                 name="state"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>State / Province</FormLabel>
+                    <FormLabel>State</FormLabel>
                     <FormControl>
-                      <Input placeholder="CA" {...field} />
+                      <Input placeholder="Enter your state" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -153,9 +152,9 @@ export function CheckoutForm() {
                 name="postalCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Postal Code</FormLabel>
+                    <FormLabel>PIN Code</FormLabel>
                     <FormControl>
-                      <Input placeholder="94103" {...field} />
+                      <Input placeholder="Enter your 6-digit PIN code" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -170,7 +169,7 @@ export function CheckoutForm() {
                 <FormItem>
                   <FormLabel>Country</FormLabel>
                   <FormControl>
-                    <Input placeholder="United States" {...field} />
+                    <Input placeholder="Enter your country" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -222,7 +221,6 @@ export function CheckoutForm() {
               )}
             />
 
-            {/* Payment details would go here in a real implementation */}
             <div className="mt-6 p-4 bg-gray-50 rounded-md">
               <p className="text-sm text-muted-foreground">
                 In a complete implementation, this is where credit card fields or PayPal integration would be added.

@@ -3,22 +3,21 @@ import React from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ProfileInfo } from "@/components/profile/ProfileInfo";
 import { AddressList } from "@/components/profile/AddressList";
+import { SecuritySettings } from "@/components/profile/SecuritySettings";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currentUser } from "@/data/user";
-import { getUserOrders } from "@/data/orders";
 
 const ProfilePage = () => {
-  const userOrders = getUserOrders(currentUser.id);
-
   return (
     <MainLayout>
       <div className="container py-8">
         <h1 className="text-2xl md:text-3xl font-bold mb-6">Your Account</h1>
 
         <Tabs defaultValue="profile" className="w-full">
-          <TabsList className="grid w-full md:w-auto grid-cols-3 md:inline-flex mb-6">
+          <TabsList className="grid w-full md:w-auto grid-cols-4 md:inline-flex mb-6">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="address">Addresses</TabsTrigger>
+            <TabsTrigger value="security">Security</TabsTrigger>
             <TabsTrigger value="orders">Orders</TabsTrigger>
           </TabsList>
 
@@ -28,6 +27,10 @@ const ProfilePage = () => {
 
           <TabsContent value="address">
             <AddressList user={currentUser} />
+          </TabsContent>
+
+          <TabsContent value="security">
+            <SecuritySettings />
           </TabsContent>
 
           <TabsContent value="orders">

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
@@ -8,6 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { orders } from "@/data/orders";
 import { Link } from "react-router-dom";
 import { PackageOpen, ShoppingBag } from "lucide-react";
+
+const formatINR = (amount: number) =>
+  amount.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 
 const OrdersPage = () => {
   const activeOrders = orders.filter(
@@ -82,7 +87,7 @@ const OrdersPage = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">&#x20B9;{item.price.toFixed(2)}</p>
+                    <p className="font-medium">₹{formatINR(item.price)}</p>
                   </div>
                 </div>
               ))}
@@ -91,7 +96,7 @@ const OrdersPage = () => {
 
           <div className="flex justify-between pt-2 border-t">
             <p className="font-medium">Total</p>
-            <p className="font-bold">&#x20B9;{order.total.toFixed(2)}</p>
+            <p className="font-bold">₹{formatINR(order.total)}</p>
           </div>
 
           <div className="pt-2">

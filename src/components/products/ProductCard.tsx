@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Product } from "@/types/product";
 import { useCart } from "@/context/CartContext";
+import { useWishlist } from "@/context/WishlistContext";
 import { ShoppingCart, Heart, Tv } from "lucide-react";
 import { toast } from "sonner";
 
@@ -22,12 +23,24 @@ const formatINR = (amount: number) =>
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart(product);
     toast.success(`${product.name} added to cart`);
+  };
+
+  const handleWishlistToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist(product);
+    }
   };
 
   return (
@@ -88,9 +101,16 @@ export function ProductCard({ product }: ProductCardProps) {
             <ShoppingCart className="mr-2 h-4 w-4" />
             Add to Cart
           </Button>
-          <Button variant="outline" size="icon">
-            <Heart className="h-4 w-4" />
-            <span className="sr-only">Add to wishlist</span>
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={handleWishlistToggle}
+            className={isInWishlist(product.id) ? "text-red-500 hover:text-red-600" : ""}
+          >
+            <Heart className={`h-4 w-4 ${isInWishlist(product.id) ? "fill-current" : ""}`} />
+            <span className="sr-only">
+              {isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+            </span>
           </Button>
         </CardFooter>
       </Link>

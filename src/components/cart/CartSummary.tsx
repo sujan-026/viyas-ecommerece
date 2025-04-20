@@ -1,61 +1,79 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { Link } from "react-router-dom";
 
+// formatter for Indian Rupees with lakhs/crores separators
+const formatINR = (amount: number) =>
+  amount.toLocaleString("en-IN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
 export function CartSummary() {
-  const { getCartTotal, getCartCount } = useCart();
+  const { cartItems, getCartTotal } = useCart();
+  const { isAuthenticated } = useAuth();
   const subtotal = getCartTotal();
-  const itemCount = getCartCount();
-  const shipping = subtotal > 100 ? 0 : 10;
-  const tax = subtotal * 0.08;
-  const total = subtotal + shipping + tax;
+  const shipping = subtotal > 2000 ? 0 : 99.99;
+  const total = subtotal + shipping;
 
   return (
-    <div className="rounded-lg bg-gray-50 p-6 shadow-sm">
-      <h2 className="text-lg font-medium text-gray-900">Order Summary</h2>
-      <div className="mt-6 space-y-4">
-        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="text-base text-gray-600">Subtotal</div>
-          <div className="text-base font-medium text-gray-900">
-            ${subtotal.toFixed(2)}
+    <Card className="sticky top-20">
+      <CardContent className="p-6">
+        <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+        <div className="space-y-3">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Subtotal</span>
+            <span>&#x20B9;{formatINR(subtotal)}</span>
           </div>
-        </div>
-        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="flex items-center">
-            <span className="text-base text-gray-600">Shipping</span>
-            {shipping === 0 && (
-              <span className="ml-1 rounded-full bg-green-100 px-2 py-0.5 text-xs text-green-800">
-                Free
-              </span>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Shipping</span>
+            {shipping === 0 ? (
+              <span className="text-green-600">Free</span>
+            ) : (
+              <span>&#x20B9;{formatINR(shipping)}</span>
             )}
           </div>
-          <div className="text-base font-medium text-gray-900">
-            ${shipping.toFixed(2)}
+          {shipping > 0 && subtotal > 0 && (
+            <div className="text-sm text-muted-foreground">
+              Add &#x20B9;{formatINR(2000 - subtotal)} more for free shipping!
+            </div>
+          )}
+          <Separator />
+          <div className="flex justify-between font-bold">
+            <span>Total</span>
+            <span>&#x20B9;{formatINR(total)}</span>
           </div>
         </div>
-        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="text-base text-gray-600">Tax estimate</div>
-          <div className="text-base font-medium text-gray-900">
-            ${tax.toFixed(2)}
+      </CardContent>
+      <CardFooter className="p-6 pt-0">
+        {isAuthenticated ? (
+          <Button
+            asChild
+            className="w-full"
+            disabled={cartItems.length === 0}
+          >
+            <Link to="/checkout">Proceed to Checkout</Link>
+          </Button>
+        ) : (
+          <div className="w-full space-y-2">
+            <Button
+              asChild
+              className="w-full"
+              disabled={cartItems.length === 0}
+            >
+              <Link to="/auth">Login to Checkout</Link>
+            </Button>
+            <p className="text-sm text-center text-muted-foreground">
+              You need to be logged in to checkout
+            </p>
           </div>
-        </div>
-        <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-          <div className="text-base font-bold text-gray-900">Order total</div>
-          <div className="text-base font-bold text-gray-900">
-            ${total.toFixed(2)}
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-6">
-        <Button className="w-full text-base" size="lg" asChild>
-          <Link to={itemCount > 0 ? "/checkout" : "#"}>
-            {itemCount > 0 ? "Proceed to Checkout" : "Your Cart is Empty"}
-          </Link>
-        </Button>
-      </div>
-    </div>
+        )}
+      </CardFooter>
+    </Card>
   );
 }

@@ -82,7 +82,7 @@ const OrdersPage = () => {
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-medium">${item.price.toFixed(2)}</p>
+                    <p className="font-medium">&#x20B9;{item.price.toFixed(2)}</p>
                   </div>
                 </div>
               ))}
@@ -91,7 +91,7 @@ const OrdersPage = () => {
 
           <div className="flex justify-between pt-2 border-t">
             <p className="font-medium">Total</p>
-            <p className="font-bold">${order.total.toFixed(2)}</p>
+            <p className="font-bold">&#x20B9;{order.total.toFixed(2)}</p>
           </div>
 
           <div className="pt-2">

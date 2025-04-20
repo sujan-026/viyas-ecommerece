@@ -80,7 +80,7 @@ const OrderDetail = () => {
                       <div className="text-right">
                         <p className="font-medium">${item.price.toFixed(2)}</p>
                         <p className="text-sm text-muted-foreground">
-                          ${(item.price * item.quantity).toFixed(2)}
+                        &#x20B9;{(item.price * item.quantity).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -95,16 +95,16 @@ const OrderDetail = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Shipping</span>
-                      <span>$0.00</span>
+                      <span>&#x20B9;0.00</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted-foreground">Tax</span>
-                      <span>$0.00</span>
+                      <span>&#x20B9;0.00</span>
                     </div>
                     <Separator className="my-2" />
                     <div className="flex justify-between font-bold">
                       <span>Total</span>
-                      <span>${order.total.toFixed(2)}</span>
+                      <span>&#x20B9;{order.total.toFixed(2)}</span>
                     </div>
                   </div>
                 </div>

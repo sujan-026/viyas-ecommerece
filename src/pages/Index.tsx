@@ -108,7 +108,7 @@ const Index = () => {
                 Free Professional Installation
               </h2>
               <p className="text-lg text-gray-600 mb-4">
-                Enjoy free professional installation on all premium TVs above $1000. Our expert technicians will set up your TV for the best viewing experience.
+                Enjoy free professional installation on all premium TVs above &#x20B9;1000. Our expert technicians will set up your TV for the best viewing experience.
               </p>
               <Button asChild>
                 <Link to="/products">Shop Premium TVs</Link>
